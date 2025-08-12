@@ -235,7 +235,13 @@
         color: white;
         font-size: 24px;
         cursor: pointer;
-        padding: 4px;
+        padding: 8px 12px;
+        border-radius: 6px;
+        transition: background-color 0.2s ease;
+    }
+
+    .close-btn:hover {
+        background-color: rgba(255,255,255,0.1);
     }
 
     .preview-body {
@@ -321,19 +327,19 @@
 
         <div class="button-group">
             <button type="button" class="btn btn-primary" onclick="inviaRapporto()">
-                ð§ Invia rapporto
+                Invia rapporto
             </button>
             <button type="button" class="btn btn-secondary" onclick="mostraAnteprima()">
-                ð Anteprima
+                Anteprima
             </button>
         </div>
 
         <div class="action-buttons">
             <button type="button" class="btn btn-secondary" onclick="copiaCorpoEmail()">
-                ð Copia corpo email
+                Copia corpo email
             </button>
             <button type="button" class="btn btn-secondary" onclick="pulisciForm()">
-                ð Pulisci
+                Pulisci
             </button>
         </div>
     </form>
@@ -350,7 +356,7 @@
     <div class="preview-content">
         <div class="preview-header">
             <h3>Anteprima Rapporto</h3>
-            <button class="close-btn" onclick="chiudiAnteprima()">&times;</button>
+            <button class="close-btn" onclick="chiudiAnteprima()">X</button>
         </div>
         <div class="preview-body" id="previewBody"></div>
     </div>
