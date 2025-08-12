@@ -135,6 +135,7 @@
         font-size: 24px;
         font-weight: 700;
         color: #2c3e50;
+        font-family: Arial, sans-serif;
     }
 
     .button-group {
@@ -292,7 +293,7 @@
 
         <div class="hours-display" id="oreDisplay">
             <div class="label">Totale ore</div>
-            <div class="value" id="totaleOre">â</div>
+            <div class="value" id="totaleOre">0.00 h</div>
         </div>
 
         <div class="form-group">
@@ -389,13 +390,13 @@
             
             if (dataFine > dataInizio) {
                 const differenza = dataFine - dataInizio;
-                const ore = Math.round((differenza / (1000 * 60 * 60)) * 100) / 100;
+                const ore = (differenza / (1000 * 60 * 60)).toFixed(2);
                 document.getElementById('totaleOre').textContent = ore + ' h';
             } else {
-                document.getElementById('totaleOre').textContent = 'â';
+                document.getElementById('totaleOre').textContent = 'Errore date';
             }
         } else {
-            document.getElementById('totaleOre').textContent = 'â';
+            document.getElementById('totaleOre').textContent = '0.00 h';
         }
     }
 
@@ -475,9 +476,26 @@ Web: www.2m-srls.com`;
 
     function copiaCorpoEmail() {
         const corpo = generaCorpoEmail();
-        navigator.clipboard.writeText(corpo).then(function() {
-            alert('Testo copiato negli appunti!');
-        });
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(corpo).then(function() {
+                alert('Testo copiato negli appunti!');
+            }).catch(function() {
+                alert('Errore nella copia. Usa l\'anteprima per copiare manualmente.');
+            });
+        } else {
+            // Fallback per browser piÃ¹ vecchi
+            const textArea = document.createElement('textarea');
+            textArea.value = corpo;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                alert('Testo copiato negli appunti!');
+            } catch (err) {
+                alert('Impossibile copiare automaticamente. Usa l\'anteprima.');
+            }
+            document.body.removeChild(textArea);
+        }
     }
 
     function inviaRapporto() {
@@ -488,18 +506,32 @@ Web: www.2m-srls.com`;
         }
         
         const corpo = generaCorpoEmail();
-        const subject = `Rapporto di Intervento - ${document.getElementById('nomeAzienda').value}`;
+        const subject = 'Rapporto di Intervento - ' + document.getElementById('nomeAzienda').value;
         const emailCliente = document.getElementById('emailCliente').value;
         
-        const mailtoLink = `mailto:${emailCliente}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(corpo)}`;
-        window.location.href = mailtoLink;
+        // Crea il link mailto con encoding corretto
+        const mailtoLink = 'mailto:' + emailCliente + 
+                         '?subject=' + encodeURIComponent(subject) + 
+                         '&body=' + encodeURIComponent(corpo);
+        
+        // Prova ad aprire il client email
+        try {
+            window.location.href = mailtoLink;
+        } catch (error) {
+            // Fallback: copia negli appunti se mailto non funziona
+            navigator.clipboard.writeText(corpo).then(function() {
+                alert('Il client email non e\' disponibile. Il contenuto e\' stato copiato negli appunti.');
+            }).catch(function() {
+                alert('Impossibile aprire il client email. Copia manualmente il testo dall\'anteprima.');
+            });
+        }
     }
 
     function pulisciForm() {
         if (confirm('Sei sicuro di voler cancellare tutti i dati inseriti?')) {
             document.getElementById('interventoForm').reset();
             document.getElementById('luogoGroup').classList.remove('disabled');
-            document.getElementById('totaleOre').textContent = 'â';
+            document.getElementById('totaleOre').textContent = '0.00 h';
         }
     }
 
