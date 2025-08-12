@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="2M Rapporti">
+    <title>Rapporto di Intervento - 2M Digital Consulting</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+```
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px 16px;
+    }
+
+    .container {
+        max-width: 400px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        overflow: hidden;
+    }
+
+    .header {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        color: white;
+        padding: 24px 20px;
+        text-align: center;
+    }
+
+    .header h1 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+
+    .header p {
+        font-size: 12px;
+        opacity: 0.8;
+    }
+
+    .form-container {
+        padding: 24px 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 6px;
+        font-size: 14px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e1e5e9;
+        border-radius: 12px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+        outline: none;
+        border-color: #667eea;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .datetime-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        accent-color: #667eea;
+    }
+
+    .checkbox-group label {
+        margin: 0;
+        font-weight: 500;
+    }
+
+    .hours-display {
+        background: #f8f9fa;
+        padding: 16px;
+        border-radius: 12px;
+        text-align: center;
+        border: 2px solid #e1e5e9;
+        margin-bottom: 20px;
+    }
+
+    .hours-display .label {
+        font-size: 12px;
+        color: #6c757d;
+        margin-bottom: 4px;
+    }
+
+    .hours-display .value {
+        font-size: 24px;
+        font-weight: 700;
+        color: #2c3e50;
+    }
+
+    .button-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 24px;
+    }
+
+    .btn {
+        padding: 14px 20px;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-secondary {
+        background: #f8f9fa;
+        color: #6c757d;
+        border: 2px solid #e1e5e9;
+    }
+
+    .btn-secondary:hover {
+        background: #e9ecef;
+    }
+
+    .action-buttons {
+        display: grid;
+        gap: 12px;
+        margin-top: 16px;
+    }
+
+    .footer {
+        background: #f8f9fa;
+        padding: 16px 20px;
+        text-align: center;
+        font-size: 12px;
+        color: #6c757d;
+        border-top: 1px solid #e1e5e9;
+    }
+
+    .footer a {
+        color: #667eea;
+        text-decoration: none;
+    }
+
+    .preview-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 1000;
+        padding: 20px;
+    }
+
+    .preview-content {
+        background: white;
+        border-radius: 20px;
+        max-width: 400px;
+        margin: 0 auto;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .preview-header {
+        background: #2c3e50;
+        color: white;
+        padding: 20px;
+        border-radius: 20px 20px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 4px;
+    }
+
+    .preview-body {
+        padding: 20px;
+        white-space: pre-wrap;
+        font-family: monospace;
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    .disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    @media (max-width: 480px) {
+        .datetime-row {
+            grid-template-columns: 1fr;
+        }
+        
+        .button-group {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Rapporto di Intervento</h1>
+            <p>2M Digital Consulting SRLS</p>
+        </div>
+
+```
+    <form class="form-container" id="interventoForm">
+        <div class="datetime-row">
+            <div class="form-group">
+                <label for="inizioIntervento">Inizio intervento</label>
+                <input type="datetime-local" id="inizioIntervento" name="inizioIntervento" required>
+            </div>
+            <div class="form-group">
+                <label for="fineIntervento">Fine intervento</label>
+                <input type="datetime-local" id="fineIntervento" name="fineIntervento" required>
+            </div>
+        </div>
+
+        <div class="hours-display" id="oreDisplay">
+            <div class="label">Totale ore</div>
+            <div class="value" id="totaleOre">—</div>
+        </div>
+
+        <div class="form-group">
+            <label for="nomeAzienda">Nome azienda o privato</label>
+            <input type="text" id="nomeAzienda" name="nomeAzienda" required>
+        </div>
+
+        <div class="form-group">
+            <label for="codiceFiscale">Codice fiscale o P. IVA (opzionale)</label>
+            <input type="text" id="codiceFiscale" name="codiceFiscale">
+        </div>
+
+        <div class="form-group">
+            <label for="emailCliente">Email del cliente</label>
+            <input type="email" id="emailCliente" name="emailCliente" required>
+        </div>
+
+        <div class="checkbox-group">
+            <input type="checkbox" id="interventoRemoto" name="interventoRemoto">
+            <label for="interventoRemoto">Intervento da remoto</label>
+        </div>
+
+        <div class="form-group" id="luogoGroup">
+            <label for="luogoIntervento">Luogo dell'intervento</label>
+            <input type="text" id="luogoIntervento" name="luogoIntervento">
+        </div>
+
+        <div class="form-group">
+            <label for="descrizioneIntervento">Descrizione intervento</label>
+            <textarea id="descrizioneIntervento" name="descrizioneIntervento" rows="4" required></textarea>
+        </div>
+
+        <div class="button-group">
+            <button type="button" class="btn btn-primary" onclick="inviaRapporto()">
+                📧 Invia rapporto
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="mostraAnteprima()">
+                👁 Anteprima
+            </button>
+        </div>
+
+        <div class="action-buttons">
+            <button type="button" class="btn btn-secondary" onclick="copiaCorpoEmail()">
+                📋 Copia corpo email
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="pulisciForm()">
+                🗑 Pulisci
+            </button>
+        </div>
+    </form>
+
+    <div class="footer">
+        © 2M Digital Consulting SRLS<br>
+        <a href="mailto:info@2m-srls.com">info@2m-srls.com</a> • 
+        <a href="https://www.2m-srls.com">www.2m-srls.com</a>
+    </div>
+</div>
+
+<!-- Modal Anteprima -->
+<div class="preview-modal" id="previewModal">
+    <div class="preview-content">
+        <div class="preview-header">
+            <h3>Anteprima Rapporto</h3>
+            <button class="close-btn" onclick="chiudiAnteprima()">&times;</button>
+        </div>
+        <div class="preview-body" id="previewBody"></div>
+    </div>
+</div>
+
+<script>
+    // Gestione checkbox remoto
+    document.getElementById('interventoRemoto').addEventListener('change', function() {
+        const luogoGroup = document.getElementById('luogoGroup');
+        const luogoInput = document.getElementById('luogoIntervento');
+        
+        if (this.checked) {
+            luogoGroup.classList.add('disabled');
+            luogoInput.value = '';
+            luogoInput.removeAttribute('required');
+        } else {
+            luogoGroup.classList.remove('disabled');
+            luogoInput.setAttribute('required', '');
+        }
+    });
+
+    // Calcolo automatico ore
+    function calcolaOre() {
+        const inizio = document.getElementById('inizioIntervento').value;
+        const fine = document.getElementById('fineIntervento').value;
+        
+        if (inizio && fine) {
+            const dataInizio = new Date(inizio);
+            const dataFine = new Date(fine);
+            
+            if (dataFine > dataInizio) {
+                const differenza = dataFine - dataInizio;
+                const ore = Math.round((differenza / (1000 * 60 * 60)) * 100) / 100;
+                document.getElementById('totaleOre').textContent = ore + ' h';
+            } else {
+                document.getElementById('totaleOre').textContent = '—';
+            }
+        } else {
+            document.getElementById('totaleOre').textContent = '—';
+        }
+    }
+
+    document.getElementById('inizioIntervento').addEventListener('change', calcolaOre);
+    document.getElementById('fineIntervento').addEventListener('change', calcolaOre);
+
+    function generaCorpoEmail() {
+        const form = document.getElementById('interventoForm');
+        const formData = new FormData(form);
+        
+        const inizio = new Date(formData.get('inizioIntervento')).toLocaleString('it-IT');
+        const fine = new Date(formData.get('fineIntervento')).toLocaleString('it-IT');
+        const isRemoto = document.getElementById('interventoRemoto').checked;
+        const totaleOre = document.getElementById('totaleOre').textContent;
+        
+        let corpo = `RAPPORTO DI INTERVENTO
+```
+
+2M Digital Consulting SRLS
+
+Cliente: ${formData.get(‘nomeAzienda’)}`;
+
+```
+        if (formData.get('codiceFiscale')) {
+            corpo += `
+```
+
+Codice Fiscale/P.IVA: ${formData.get(‘codiceFiscale’)}`;
+}
+
+```
+        corpo += `
+```
+
+Email: ${formData.get(‘emailCliente’)}
+
+DETTAGLI INTERVENTO:
+Inizio: ${inizio}
+Fine: ${fine}
+Totale ore: ${totaleOre}
+Modalità: ${isRemoto ? ‘Da remoto’ : ‘In loco’}`;
+
+```
+        if (!isRemoto && formData.get('luogoIntervento')) {
+            corpo += `
+```
+
+Luogo: ${formData.get(‘luogoIntervento’)}`;
+}
+
+```
+        corpo += `
+```
+
+DESCRIZIONE:
+${formData.get(‘descrizioneIntervento’)}
+
+-----
+
+2M Digital Consulting SRLS
+Email: info@2m-srls.com
+Web: www.2m-srls.com`;
+
+```
+        return corpo;
+    }
+
+    function mostraAnteprima() {
+        const corpo = generaCorpoEmail();
+        document.getElementById('previewBody').textContent = corpo;
+        document.getElementById('previewModal').style.display = 'block';
+    }
+
+    function chiudiAnteprima() {
+        document.getElementById('previewModal').style.display = 'none';
+    }
+
+    function copiaCorpoEmail() {
+        const corpo = generaCorpoEmail();
+        navigator.clipboard.writeText(corpo).then(function() {
+            alert('Testo copiato negli appunti!');
+        });
+    }
+
+    function inviaRapporto() {
+        const form = document.getElementById('interventoForm');
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+        
+        const corpo = generaCorpoEmail();
+        const subject = `Rapporto di Intervento - ${document.getElementById('nomeAzienda').value}`;
+        const emailCliente = document.getElementById('emailCliente').value;
+        
+        const mailtoLink = `mailto:${emailCliente}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(corpo)}`;
+        window.location.href = mailtoLink;
+    }
+
+    function pulisciForm() {
+        if (confirm('Sei sicuro di voler cancellare tutti i dati inseriti?')) {
+            document.getElementById('interventoForm').reset();
+            document.getElementById('luogoGroup').classList.remove('disabled');
+            document.getElementById('totaleOre').textContent = '—';
+        }
+    }
+
+    // Chiudi modal cliccando fuori
+    document.getElementById('previewModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            chiudiAnteprima();
+        }
+    });
+
+    // Imposta data corrente come default per inizio intervento
+    document.addEventListener('DOMContentLoaded', function() {
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        document.getElementById('inizioIntervento').value = now.toISOString().slice(0,16);
+    });
+</script>
+```
+
+</body>
+</html>
